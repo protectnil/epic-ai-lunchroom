@@ -1,0 +1,9 @@
+name: lunchroom
+version: "1.0.0"
+description: "Lunchroom's guard: agents talk, the user decides who acts."
+author: "Lunchroom"
+provides_hooks:
+  - pre_tool_call
+  - post_tool_call
+  - pre_llm_call
+  - pre_api_request

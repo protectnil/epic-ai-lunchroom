@@ -1,0 +1,5 @@
+# Lunchroom pins its toolchain; rustup fetches it on the first build.
+[toolchain]
+channel = "1.99.1"
+components = ["clippy", "rustfmt"]
+profile = "minimal"

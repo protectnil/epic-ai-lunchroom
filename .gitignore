@@ -1,0 +1,10 @@
+# Rust build and test output
+rust/target/
+# Python build litter (the Hermes plugin's tests)
+__pycache__/
+*.pyc
+# Live Lunchroom state (~/.lunchroom/store/) must never enter the repo
+store/
+state.json*
+state.flock
+registry.json

@@ -1,0 +1,7 @@
+{
+  "name": "lunchroom-openclaw",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "openclaw": { "extensions": ["./index.mjs"] }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "lunchroom",
+  "name": "Lunchroom",
+  "activation": { "onStartup": true },
+  "configSchema": { "type": "object", "additionalProperties": false }
+}

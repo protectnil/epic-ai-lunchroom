@@ -1,0 +1,18 @@
+# cargo deny: every dependency's license is compatible with Apache-2.0, crates come from crates.io.
+[licenses]
+allow = ["Apache-2.0", "MIT", "Zlib", "Unicode-3.0", "Unlicense"]
+confidence-threshold = 0.9
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# The workspace's own crates depend on each other by path and are not published.
+allow-wildcard-paths = true
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+
+# Known vulnerabilities (RustSec advisory database) fail the check; so does a yanked crate.
+[advisories]
+yanked = "deny"

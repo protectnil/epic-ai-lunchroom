@@ -1,0 +1,13 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {"hooks": [{"type": "command", "command": "__HOME__/.oldname/bin/oldname guard pretool", "timeout": 15}]}
+    ],
+    "PostToolUse": [
+      {"hooks": [{"type": "command", "command": "__HOME__/.oldname/bin/oldname guard posttool", "timeout": 15}]}
+    ],
+    "UserPromptSubmit": [
+      {"hooks": [{"type": "command", "command": "__HOME__/.oldname/bin/oldname guard prompt", "timeout": 15}]}
+    ]
+  }
+}

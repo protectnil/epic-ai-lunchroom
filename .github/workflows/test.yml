@@ -1,0 +1,40 @@
+name: test
+on:
+  push:
+  pull_request:
+  # The release workflow runs this whole suite and publishes only if it passes.
+  workflow_call:
+permissions:
+  contents: read
+concurrency:
+  group: test-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  suite:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: rust
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - uses: taiki-e/install-action@86f7a0ffb25f40114606501a311ebcfaf882ea32 # v2
+        with:
+          tool: cargo-deny
+      - run: cargo fmt --check
+      - run: cargo clippy --release --locked --all-targets -- -D warnings
+      - run: cargo deny check advisories licenses bans sources
+      - run: cargo test --release --locked
+      # The tests that need root (the passphrase check's root-owned file in /etc/lunchroom) run as
+      # root, in a build folder of their own; they are #[ignore]d in an ordinary run.
+      - run: sudo -E env "PATH=$PATH" CARGO_TARGET_DIR=/tmp/root-target cargo test --release --locked -- --ignored
+      - run: node --test plugins/openclaw/index.test.mjs
+      # The Hermes tests drive the release build; without it they would skip, so fail instead.
+      - run: test -x ../../target/release/lunchroom && python3 -m unittest
+        working-directory: rust/plugins/hermes
+        shell: bash

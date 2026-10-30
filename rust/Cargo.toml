@@ -1,0 +1,36 @@
+[workspace]
+resolver = "3"
+members = ["crates/lunchroom-core", "crates/lunchroom"]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.99"
+license = "Apache-2.0"
+authors = ["protectNIL Inc."]
+keywords = ["agents", "claude-code", "codex", "guard", "security"]
+categories = ["command-line-utilities", "development-tools"]
+publish = false
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+all = { level = "deny", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+sha2 = "0.10"
+serde_json = { version = "1", features = ["float_roundtrip", "preserve_order"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+# Unwind, so a panic in the guard's hook thread still produces an answer (spec H1.5).
+panic = "unwind"
+strip = true
